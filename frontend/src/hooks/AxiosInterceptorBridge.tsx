@@ -10,15 +10,17 @@ export function AxiosInterceptorBridge({
 }: {
   children: React.ReactNode;
 }) {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   // Put the action function into a mutable ref container
+  // use ref because without it there's a stale closure issue
   const logoutRef = useRef(logout);
+  const userRef = useRef(user);
 
   // Keep the ref updated with the logout hook on every render
-  useEffect(() => {
-    logoutRef.current = logout;
-  }, []);
+  logoutRef.current = logout;
+  userRef.current = user;
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const interceptor = api.interceptors.response.use(
@@ -26,7 +28,10 @@ export function AxiosInterceptorBridge({
       (error) => {
         // log out on intercepting status 401
         if (error.response?.status === 401) {
-          logoutRef.current();
+          if (userRef.current) {
+            logoutRef.current();
+            alert("Your session has expired.");
+          }
         }
         return Promise.reject(error);
       },
