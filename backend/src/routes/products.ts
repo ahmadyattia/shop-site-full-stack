@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import insertProduct from "../services/insertProduct.js";
 import pool from "../lib/db.js";
 import { Product, ProductWithSales } from "../types/product.js";
+import format from "pg-format";
 
 const router = express.Router();
 
@@ -284,6 +285,25 @@ router.put("/:productId", async (req: Request, res: Response) => {
         product.id,
       ],
     );
+
+    // Wipe out all existing images associated with the product
+    await client.query(
+      `
+    DELETE FROM product_images 
+    WHERE product_id = $1;
+    `,
+      [productId],
+    );
+
+    const imageRows = product.images.map((image) => [productId, image.url]);
+
+    // Insert brand new set of images
+    const imagesQuery = format(
+      "INSERT INTO product_images (product_id, image) VALUES %L;",
+      imageRows,
+    );
+
+    await client.query(imagesQuery);
 
     await client.query("COMMIT");
 
