@@ -11,6 +11,7 @@ router.get("/", verifyToken, (req: AuthenticatedRequest, res: Response) => {
     success: true,
     message: "The token is valid.",
     user: req.user,
+    csrfToken: req.csrfToken,
   });
 });
 
