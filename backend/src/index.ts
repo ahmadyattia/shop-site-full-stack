@@ -1,12 +1,9 @@
 import express, { Request, Response } from "express";
 import productsRouter from "./routes/products.js";
 import categoriesRouter from "./routes/categories.js";
-import signupRouter from "./routes/auth/signup.js";
-import loginRouter from "./routes/auth/login.js";
-import meRouter from "./routes/auth/me.js";
+import authRouter from "./routes/auth.js";
 import cartRouter from "./routes/cart.js";
 import ordersRouter from "./routes/orders.js";
-import deleteAccRouter from "./routes/auth/delete-account.js";
 import usersRouter from "./routes/users.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -42,12 +39,9 @@ app.get("/run-script", () => {});
 
 app.use("/api/products", productsRouter);
 app.use("/api/categories", categoriesRouter);
-app.use("/api/auth/signup", signupRouter);
-app.use("/api/auth/login", loginRouter);
-app.use("/api/auth/me", meRouter);
-app.use("/api/auth/delete-account", deleteAccRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/orders", ordersRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 
 app.listen(PORT, () => {
