@@ -38,6 +38,7 @@ router.post("/", async (req: Request, res: Response) => {
         first_name: userData.first_name,
         last_name: userData.last_name,
         email: userData.email,
+        isAdmin: userData.is_admin,
       },
       process.env.JWT_SECRET as string,
       { expiresIn: "20m" },
@@ -59,8 +60,8 @@ router.post("/", async (req: Request, res: Response) => {
         first_name: userData.first_name,
         last_name: userData.last_name,
         email: userData.email,
+        isAdmin: userData.is_admin,
       },
-      token: token,
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error });

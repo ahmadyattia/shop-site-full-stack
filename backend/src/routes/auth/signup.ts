@@ -10,7 +10,7 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 
 router.post("/", async (req: Request, res: Response) => {
-  const { fName, lName, email, password } = req.body;
+  const { fName, lName, email, password, isAdmin } = req.body;
 
   // validate email format
   if (!isValidEmail(email)) {
@@ -37,9 +37,15 @@ router.post("/", async (req: Request, res: Response) => {
   const client = await pool.connect();
 
   try {
-    const queryText = "INSERT INTO users VALUES (DEFAULT, $1, $2, $3, $4)";
+    const queryText = "INSERT INTO users VALUES (DEFAULT, $1, $2, $3, $4, $5)";
 
-    await client.query(queryText, [fName, lName, email, hashedPassword]);
+    await client.query(queryText, [
+      fName,
+      lName,
+      email,
+      hashedPassword,
+      isAdmin,
+    ]);
 
     res
       .status(200)
