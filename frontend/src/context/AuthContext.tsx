@@ -28,6 +28,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -40,6 +41,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         const response = await api.get(`/auth/me`);
 
         setUser(response.data.user);
+        setCsrfToken(response.data.csrfToken);
       } catch (error) {
         setUser(null);
       } finally {
