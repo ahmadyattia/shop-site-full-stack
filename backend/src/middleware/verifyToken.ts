@@ -4,6 +4,7 @@ import { User } from "../types/user.js";
 
 export interface AuthenticatedRequest extends Request {
   user?: User;
+  csrfToken?: string;
 }
 
 const verifyToken = (
@@ -23,7 +24,8 @@ const verifyToken = (
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as any;
     const { iat, exp, ...payload } = decoded;
 
-    req.user = payload;
+    req.user = payload.user;
+    req.csrfToken = payload.csrfToken;
 
     next();
   } catch (error: any) {
