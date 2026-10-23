@@ -52,6 +52,30 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     verifySession();
   }, []);
 
+  useEffect(() => {
+    // run this interceptor on every state-changing request to inject the csrf token to the request headers
+    const interceptor = api.interceptors.request.use(
+      (config) => {
+        const method = config.method?.toLowerCase();
+
+        // only attach csrf token header to state-changing requests
+        if (
+          csrfToken &&
+          method &&
+          ["post", "put", "delete", "patch"].includes(method)
+        ) {
+          config.headers["X-CSRF-TOKEN"] = csrfToken;
+        }
+
+        return config;
+      },
+      (error) => Promise.reject(error),
+    );
+
+    // Eject on cleanup/re-render to prevent duplicate interceptors accumulating
+    return () => api.interceptors.request.eject(interceptor);
+  }, [csrfToken]);
+
   async function login(email: string, password: string) {
     try {
       const response = await api.post("/auth/login", { email, password });
