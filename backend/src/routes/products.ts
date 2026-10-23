@@ -11,6 +11,8 @@ import {
   postProduct,
   updateProduct,
 } from "../controllers/productsController.js";
+import verifyToken from "../middleware/verifyToken.js";
+import { csrfProtection } from "../middleware/csrfProtection.js";
 
 const router = express.Router();
 
@@ -26,17 +28,18 @@ router.get("/:category/:productId", getProductByCategoryAndId);
 // fetch products by search term
 router.post("/search", getProductsBySearchTerm);
 
-router.post("/", postProduct);
+router.post("/", verifyToken, csrfProtection, postProduct); // admin
 
 router.get("/images", getProductsImages);
 
 // update an existing product with the product id
-router.put("/:productId", updateProduct);
+router.put("/:productId", verifyToken, csrfProtection, updateProduct);
 
-router.delete("/delete/:productId", deleteProduct);
+// delete a product
+router.delete("/delete/:productId", verifyToken, csrfProtection, deleteProduct); // admin
 
 // products count for statistical purposes
-router.get("/count", getProductsCount);
+router.get("/count", verifyToken, getProductsCount); // admin
 
 // fetch products by category
 router.get("/:category", getProductsByCategory);
