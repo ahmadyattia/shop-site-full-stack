@@ -4,6 +4,7 @@ import pool from "../../lib/db.js";
 import bcrypt from "bcrypt";
 import { User } from "../../types/user.js";
 import jwt from "jsonwebtoken";
+import crypto from "node:crypto";
 
 const router = express.Router();
 
@@ -32,13 +33,18 @@ router.post("/", async (req: Request, res: Response) => {
         .json({ success: false, error: "Wrong password entered." });
     }
 
+    const csrfToken = crypto.randomBytes(32).toString("hex");
+
     const token = jwt.sign(
       {
-        id: userData.id,
-        first_name: userData.first_name,
-        last_name: userData.last_name,
-        email: userData.email,
-        isAdmin: userData.is_admin,
+        user: {
+          id: userData.id,
+          first_name: userData.first_name,
+          last_name: userData.last_name,
+          email: userData.email,
+          isAdmin: userData.is_admin,
+        },
+        csrfToken: csrfToken,
       },
       process.env.JWT_SECRET as string,
       { expiresIn: "20m" },
@@ -62,6 +68,7 @@ router.post("/", async (req: Request, res: Response) => {
         email: userData.email,
         isAdmin: userData.is_admin,
       },
+      csrfToken,
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error });
