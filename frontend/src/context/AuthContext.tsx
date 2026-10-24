@@ -96,15 +96,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   async function logout() {
     try {
-      document.cookie =
-        "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
-
-      setUser(null);
-
-      // navigate("/login", { replace: true });
-      console.log("User signed out successfully!");
+      await api.post("/auth/logout");
     } catch (error) {
       console.error("Error signing out: ", error);
+    } finally {
+      setUser(null);
+      setCsrfToken(null);
     }
   }
 
