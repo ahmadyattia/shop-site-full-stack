@@ -199,3 +199,9 @@ export const me = (req: AuthenticatedRequest, res: Response) => {
     csrfToken: req.csrfToken,
   });
 };
+
+export const logout = (req: AuthenticatedRequest, res: Response) => {
+  res.clearCookie("token", { path: "/" });
+
+  res.status(200).json({ message: "User logged out successfully." });
+};
