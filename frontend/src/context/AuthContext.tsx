@@ -44,6 +44,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         setCsrfToken(response.data.csrfToken);
       } catch (error) {
         setUser(null);
+        setCsrfToken(null);
       } finally {
         setLoading(false);
       }
@@ -82,7 +83,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       const data = await response.data;
 
       setUser(data.user);
+      setCsrfToken(data.csrfToken);
     } catch (error: any) {
+      setUser(null);
+      setCsrfToken(null);
       console.error("Error logging in:", error);
 
       if (error.response?.status === 401) {
