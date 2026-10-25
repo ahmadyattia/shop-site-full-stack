@@ -57,7 +57,7 @@ export const login = async (req: Request, res: Response) => {
       secure: process.env.NODE_ENV === "production", // Use true in production (requires HTTPS)
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Protects against Cross-Site Request Forgery (CSRF)
       path: "/",
-      maxAge: 20 * 60 * 1000, // 7 minutes
+      maxAge: 20 * 60 * 1000, // 20 minutes
     });
 
     res.status(200).json({
@@ -201,7 +201,11 @@ export const me = (req: AuthenticatedRequest, res: Response) => {
 };
 
 export const logout = (req: AuthenticatedRequest, res: Response) => {
-  res.clearCookie("token", { path: "/" });
+  res.clearCookie("token", {
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  });
 
   res.status(200).json({ message: "User logged out successfully." });
 };
