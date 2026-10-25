@@ -213,11 +213,24 @@ export const me = (req: AuthenticatedRequest, res: Response) => {
 };
 
 export const logout = (req: AuthenticatedRequest, res: Response) => {
-  res.clearCookie("token", {
-    path: "/",
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  });
+  const origin = req.headers.origin || req.headers.referer;
+
+  const adminOrigin = process.env.DASHBOARD_URL;
+  const customerOrigin = process.env.FRONTEND_URL;
+
+  if (origin && origin.startsWith(adminOrigin as string)) {
+    res.clearCookie("adminToken", {
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+  } else {
+    res.clearCookie("customerToken", {
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+  }
 
   res.status(200).json({ message: "User logged out successfully." });
 };

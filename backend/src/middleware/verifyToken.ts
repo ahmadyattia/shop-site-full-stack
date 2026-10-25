@@ -20,11 +20,11 @@ const verifyToken = (
   const adminOrigin = process.env.DASHBOARD_URL;
   const customerOrigin = process.env.FRONTEND_URL;
 
-  if (customerToken && origin && origin.startsWith(adminOrigin as string)) {
+  if (!adminToken && origin && origin.startsWith(adminOrigin as string)) {
     return res.status(401).json({ error: "Must provide an admin token." });
   }
 
-  if (adminToken && origin && origin.startsWith(customerOrigin as string)) {
+  if (!customerToken && origin && origin.startsWith(customerOrigin as string)) {
     return res.status(401).json({ error: "Must provide a customer token." });
   }
 
