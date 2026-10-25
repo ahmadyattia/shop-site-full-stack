@@ -68,7 +68,7 @@ export const login = async (req: Request, res: Response) => {
         first_name: userData.first_name,
         last_name: userData.last_name,
         email: userData.email,
-        isAdmin: userData.is_admin,
+        is_admin: userData.is_admin,
       },
       csrfToken,
     });
