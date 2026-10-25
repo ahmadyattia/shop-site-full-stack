@@ -1,6 +1,6 @@
 import { AuthenticatedRequest } from "../middleware/verifyToken.js";
 import { User } from "../types/user.js";
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
 import pool from "../lib/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -52,13 +52,25 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: "20m" },
     );
 
-    res.cookie("token", token, {
+    const cookieOptions: CookieOptions = {
       httpOnly: true, // Prevents client-side JS from reading the cookie (blocks XSS)
       secure: process.env.NODE_ENV === "production", // Use true in production (requires HTTPS)
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Protects against Cross-Site Request Forgery (CSRF)
       path: "/",
       maxAge: 20 * 60 * 1000, // 20 minutes
-    });
+    };
+
+    // Admin cookie sent to the admin dashboard, and customer cookie sent to the front store.
+    const origin = req.headers.origin || req.headers.referer;
+
+    const adminOrigin = process.env.DASHBOARD_URL;
+    const customerOrigin = process.env.FRONTEND_URL;
+
+    if (origin && origin.startsWith(adminOrigin as string)) {
+      res.cookie("adminToken", token, cookieOptions);
+    } else if (origin && origin.startsWith(customerOrigin as string)) {
+      res.cookie("customerToken", token, cookieOptions);
+    }
 
     res.status(200).json({
       success: true,
