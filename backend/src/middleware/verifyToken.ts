@@ -12,7 +12,23 @@ const verifyToken = (
   res: Response,
   next: NextFunction,
 ) => {
-  const token = req.cookies.token;
+  const adminToken = req.cookies.adminToken;
+  const customerToken = req.cookies.customerToken;
+
+  const origin = req.headers.origin || req.headers.referer;
+
+  const adminOrigin = process.env.DASHBOARD_URL;
+  const customerOrigin = process.env.FRONTEND_URL;
+
+  if (customerToken && origin && origin.startsWith(adminOrigin as string)) {
+    return res.status(401).json({ error: "Must provide an admin token." });
+  }
+
+  if (adminToken && origin && origin.startsWith(customerOrigin as string)) {
+    return res.status(401).json({ error: "Must provide a customer token." });
+  }
+
+  const token = adminToken || customerToken;
 
   if (!token) {
     return res
@@ -42,3 +58,5 @@ const verifyToken = (
 };
 
 export default verifyToken;
+
+// customer and admin token to separate logging in on customer and admin websites.
