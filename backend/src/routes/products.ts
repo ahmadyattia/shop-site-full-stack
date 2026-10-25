@@ -17,7 +17,7 @@ import { isAdmin } from "../middleware/isAdmin.js";
 
 const router = express.Router();
 
-// fetch orders according to a limit and offset that are either present or not
+// fetch products according to a limit and offset that are either present or not
 router.get("/", verifyToken, isAdmin, getProducts); // admin
 
 // fetch the 3 top purchased products from the orders data
@@ -29,8 +29,10 @@ router.get("/:category/:productId", getProductByCategoryAndId);
 // fetch products by search term
 router.post("/search", getProductsBySearchTerm);
 
+// post product
 router.post("/", verifyToken, csrfProtection, isAdmin, postProduct); // admin
 
+// get products images
 router.get("/images", getProductsImages);
 
 // update an existing product with the product id
@@ -45,7 +47,7 @@ router.delete(
   deleteProduct,
 ); // admin
 
-// products count for statistical purposes
+// products count
 router.get("/count", verifyToken, isAdmin, getProductsCount); // admin
 
 // fetch products by category
