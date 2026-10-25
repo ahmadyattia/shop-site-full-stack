@@ -18,7 +18,7 @@ import { isAdmin } from "../middleware/isAdmin.js";
 const router = express.Router();
 
 // fetch orders according to a limit and offset that are either present or not
-router.get("/", getProducts);
+router.get("/", verifyToken, isAdmin, getProducts); // admin
 
 // fetch the 3 top purchased products from the orders data
 router.get("/top-purchased", getTopPurchased);
