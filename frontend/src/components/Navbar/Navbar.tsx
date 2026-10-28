@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "@/styles/Navbar/Navbar.module.css";
 import NavbarCart from "@/components/Cart/NavbarCart";
@@ -23,12 +23,16 @@ import homeIconWhite from "@/assets/images/icons/home-icon-white.svg";
 import aboutIconWhite from "@/assets/images/icons/about-icon-white.svg";
 import shopIconWhite from "@/assets/images/icons/shop-icon-white.svg";
 import deleteAccIconWhite from "@/assets/images/icons/delete-icon-white.svg";
+import useClickOutside from "@/hooks/useClickOutside";
 
 const Navbar = () => {
   const isMobile = useMediaQuery("(max-width: 850px)");
   const isDesktop = !isMobile;
   const [isActive, setIsActive] = useState(false);
   const { user, logout, deleteAccount } = useAuth();
+  const mobileMenuRef = useRef(null);
+
+  useClickOutside(setIsActive, mobileMenuRef);
 
   function handleMenuClick() {
     if (isActive) {
@@ -42,7 +46,11 @@ const Navbar = () => {
     <nav>
       <div id={styles.navbar}>
         {isMobile && (
-          <div className={styles.mainNavMenuMobile} onClick={handleMenuClick}>
+          <div
+            ref={mobileMenuRef}
+            className={styles.mainNavMenuMobile}
+            onClick={handleMenuClick}
+          >
             <div
               className={
                 isActive ? styles.mainNavLstOpened : styles.mainNavLstClosed
