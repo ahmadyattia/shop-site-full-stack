@@ -3,7 +3,9 @@ Full-stack e-commerce website for showcasing my skills as a web developer.
 This repository has the frontend and backend API directories for the website. 
 
 Front store URL: shop-site-with-backend-three.vercel.app (Deployed on Vercel)
+
 API URL: https://shop-site-with-backend.onrender.com/ (Deployed on Render)
+
 PostgreSQL Database deployed on Neon.
 
 Render spins down the server after a period of inactivity. It can take up to 50 secs to spin up again.
