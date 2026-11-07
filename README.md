@@ -13,7 +13,7 @@ Render spins down the server after a period of inactivity. It can take up to 50 
 Frontend is written in React.js and TypeScript. It utilizes Axios HTTP client, React Router, React Context, and more. 
 Backend is a Node.js app written in TypeScript. It utilizes Express.
 
-The name of the website is "Shop Site". You can sign up and log into the front store, but you need to be an admin to login the dashboard, which is another website I built to manage the store as an admin. The repository for the dashboard is "e-commerce-dashboard" and the URL is "https://shop-site-dashboard.vercel.app". I'm providing admin credentials below. 
+The name of the website is "Shop Site". You can sign up and log into the front store, but you need to be an admin to login the dashboard, which is another website I built to manage the store as an admin. The repository for the dashboard is "shop-site-admin-dashboard" and the URL is "https://shop-site-dashboard.vercel.app". I'm providing admin credentials below. 
 
 Admin credentials:
 email: admin@gmail.com
