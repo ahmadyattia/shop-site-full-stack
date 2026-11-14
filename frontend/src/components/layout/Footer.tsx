@@ -36,7 +36,10 @@ const Footer = () => {
           </ul>
         </div>
         <div className={styles.githubIconBox}>
-          <a href="https://github.com/ahmadyattia" target="_blank">
+          <a
+            href="https://github.com/ahmadyattia/shop-site-full-stack.git"
+            target="_blank"
+          >
             <img src={githubLogo} alt="" />
           </a>
         </div>
