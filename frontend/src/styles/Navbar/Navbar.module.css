@@ -109,8 +109,8 @@
 
 .closeMenuIconBox {
   display: flex;
-  justify-content: flex-end;
-  margin: 0.5rem;
+  justify-content: space-between;
+  margin: 1rem;
 }
 
 .closeMenuIcon,

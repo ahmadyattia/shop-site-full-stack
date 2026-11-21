@@ -24,6 +24,7 @@ import aboutIconWhite from "@/assets/images/icons/about-icon-white.svg";
 import shopIconWhite from "@/assets/images/icons/shop-icon-white.svg";
 import deleteAccIconWhite from "@/assets/images/icons/delete-icon-white.svg";
 import useClickOutside from "@/hooks/useClickOutside";
+import ProfileLink from "../ProfileLink";
 
 const Navbar = () => {
   const isMobile = useMediaQuery("(max-width: 850px)");
@@ -57,6 +58,7 @@ const Navbar = () => {
               }
             >
               <div className={styles.closeMenuIconBox}>
+                {user && <ProfileLink />}
                 <img
                   className={styles.closeMenuIcon}
                   src={closeMenuIcon}
@@ -166,6 +168,8 @@ const Navbar = () => {
           )}
           <NavbarCart />
           {user && isDesktop && <NavbarSettings />}
+
+          {user && isDesktop && <ProfileLink />}
         </div>
       </div>
     </nav>
