@@ -1,12 +1,14 @@
 .link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   background-color: blue;
-  padding: 0.5rem;
-  width: max-content;
-  aspect-ratio: 1 / 1;
 }
 
 .initials {
   color: white;
-  text-align: center;
+  font-size: 1rem;
 }
