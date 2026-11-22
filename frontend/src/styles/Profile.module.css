@@ -1,0 +1,33 @@
+.profile {
+  color: white;
+  font-family: var(--primary-font);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem;
+}
+
+.initials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 9rem;
+  height: 9rem;
+  font-size: 3rem;
+  background-color: blue;
+  border-radius: 50%;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.userInfo p {
+  margin: 0;
+}
+
+.label {
+  font-weight: 800;
+}
