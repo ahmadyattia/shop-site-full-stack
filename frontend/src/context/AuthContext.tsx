@@ -29,14 +29,11 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   // check token on refresh and retrieve user data
   useEffect(() => {
     const verifySession = async () => {
-      setLoading(true);
-
       try {
         const response = await api.get(`/auth/me`);
 
@@ -95,6 +92,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       // server error
       throw new Error("Problem signing you in. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -106,6 +105,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setUser(null);
       setCsrfToken(null);
+      setLoading(false);
     }
   }
 
@@ -130,6 +130,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       // server error
       throw new Error("Problem signing you up. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -152,6 +154,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       await logout();
     } catch (error) {
       alert("Error deleting your account. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   }
 
