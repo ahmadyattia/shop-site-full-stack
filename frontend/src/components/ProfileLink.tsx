@@ -10,7 +10,7 @@ const ProfileLink = () => {
   const userInitials = user.first_name[0] + user.last_name[0];
 
   return (
-    <Link to={""} className={styles.link} title="View Profile">
+    <Link to={"profile"} className={styles.link} title="View Profile">
       <span className={styles.initials}>{userInitials}</span>
     </Link>
   );
